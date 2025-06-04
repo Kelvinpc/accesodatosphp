@@ -1,14 +1,6 @@
 <?php
-/**
- * Html2Pdf Library - example
- *
- * HTML => PDF converter
- * distributed under the OSL-3.0 License
- *
- * @package   Html2pdf
- * @author    Laurent MINGUET <webmaster@html2pdf.fr>
- * @copyright 2025 Laurent MINGUET
- */
+
+
 require_once '../../vendor/autoload.php';
 require_once '../../app/models/Mascota.php';
 
@@ -19,21 +11,18 @@ use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 try {
 
     $mascota = new Mascota();
-    $listaMascotas = $mascota->getall();
+    $listaMascotas = $mascota->getAll();
 
-    ob_start();
-    include_once '../contents/content-reporte3.php';
-    include_once '../contents/content-reporte3.php';
+        ob_start();
+        include_once '../contents/content-reporte3.php';
+        $content = ob_get_clean();
 
-    $content = ob_get_clean();
-
-    $html2pdf = new Html2Pdf('P', 'A4', 'fr', true, 'UTF-8', array(15, 5, 15, 5));
-    $html2pdf->pdf->SetDisplayMode('fullpage');
-    $html2pdf->writeHTML($content);
-    $html2pdf->output('example02.pdf');
+        $html2pdf = new Html2Pdf('P', 'A4', 'fr', true, 'UTF-8', array(15, 5, 15, 5));
+        $html2pdf->pdf->SetDisplayMode('fullpage');
+        $html2pdf->writeHTML($content);
+        $html2pdf->output('Mascotas.pdf');
 } catch (Html2PdfException $e) {
     $html2pdf->clean();
-
     $formatter = new ExceptionFormatter($e);
     echo $formatter->getHtmlMessage();
 }
